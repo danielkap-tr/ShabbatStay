@@ -247,3 +247,125 @@ reviewForm.addEventListener('submit', addListing);
 
 updateFilters();
 renderListings(listings);
+
+const GUEST_STORAGE_KEY = 'shabbatstay-guest-requests';
+
+const defaultGuestRequests = [
+  {
+    name: 'משפחת אברהמי',
+    contactInfo: '052-7654321',
+    familySize: 5,
+    country: 'Israel',
+    city: 'ירושלים',
+    kosherRequired: 5,
+    date: 'פרשת בשלח',
+  },
+  {
+    name: 'יעל ודני שפירא',
+    contactInfo: 'yael.shapira@example.com',
+    familySize: 2,
+    country: 'Germany',
+    city: 'Berlin',
+    kosherRequired: 3,
+    date: '30/1-31/1',
+  },
+];
+
+function isValidGuestRequest(item) {
+  return item &&
+    typeof item.name === 'string' &&
+    typeof item.contactInfo === 'string' &&
+    Number.isFinite(item.familySize) && item.familySize > 0 &&
+    typeof item.country === 'string' &&
+    typeof item.city === 'string' &&
+    Number.isFinite(item.kosherRequired) && item.kosherRequired >= 1 && item.kosherRequired <= 5 &&
+    typeof item.date === 'string';
+}
+
+function loadGuestRequests() {
+  try {
+    const stored = localStorage.getItem(GUEST_STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        const valid = parsed.filter(isValidGuestRequest);
+        if (valid.length) return valid;
+      }
+    }
+  } catch (error) {
+    console.warn('ShabbatStay: failed to load guest requests from localStorage', error);
+  }
+  return [...defaultGuestRequests];
+}
+
+function saveGuestRequests() {
+  try {
+    localStorage.setItem(GUEST_STORAGE_KEY, JSON.stringify(guestRequests));
+  } catch (error) {
+    console.warn('ShabbatStay: failed to save guest requests to localStorage', error);
+  }
+}
+
+const guestRequests = loadGuestRequests();
+const guestRequestContainer = document.getElementById('guestRequestContainer');
+const guestRequestForm = document.getElementById('guestRequestForm');
+
+function renderGuestRequests(items) {
+  guestRequestContainer.innerHTML = '';
+  if (!items.length) {
+    guestRequestContainer.innerHTML = '<p>אין כרגע בקשות אירוח פתוחות.</p>';
+    return;
+  }
+
+  items.forEach(item => {
+    const card = document.createElement('article');
+    card.className = 'card';
+
+    card.innerHTML = `
+      <h3>${escapeHtml(item.name)}</h3>
+      <div class="badge-row">
+        <span class="badge">${escapeHtml(item.country)}</span>
+        <span class="badge">${escapeHtml(item.city)}</span>
+        <span class="badge">${item.familySize} אנשים</span>
+      </div>
+      <div class="rating-row">
+        <span class="rating-chip">כשרות נדרשת: ${item.kosherRequired}</span>
+      </div>
+      <p>תאריך מבוקש: ${escapeHtml(item.date)}</p>
+      <p>ליצירת קשר: ${escapeHtml(item.contactInfo)}</p>
+    `;
+
+    guestRequestContainer.appendChild(card);
+  });
+}
+
+function addGuestRequest(event) {
+  event.preventDefault();
+
+  const name = document.getElementById('guestNameInput').value.trim();
+  const contactInfo = document.getElementById('guestContactInput').value.trim();
+  const country = document.getElementById('guestCountryInput').value.trim();
+  const city = document.getElementById('guestCityInput').value.trim();
+  const date = document.getElementById('guestDateInput').value.trim();
+
+  if (!name || !contactInfo || !country || !city || !date) return;
+
+  const newRequest = {
+    name,
+    contactInfo,
+    familySize: Number(document.getElementById('guestFamilySizeInput').value),
+    kosherRequired: Number(document.getElementById('guestKosherInput').value),
+    country,
+    city,
+    date,
+  };
+
+  guestRequests.unshift(newRequest);
+  saveGuestRequests();
+  renderGuestRequests(guestRequests);
+  guestRequestForm.reset();
+}
+
+guestRequestForm.addEventListener('submit', addGuestRequest);
+
+renderGuestRequests(guestRequests);

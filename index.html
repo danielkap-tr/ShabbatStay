@@ -14,7 +14,8 @@
     </div>
   </header>
 
-  <main class="page-grid">
+  <main>
+  <div class="page-grid">
     <section class="panel panel-filters">
       <h2>סינונים</h2>
       <div class="filter-group">
@@ -143,6 +144,57 @@
         <button type="submit" class="btn-primary">שלח המלצה</button>
       </form>
     </section>
+  </div>
+
+  <section class="guests-section">
+    <h2>אורחים מחפשים אירוח</h2>
+    <div class="guests-grid">
+      <div class="panel panel-guest-listings">
+        <h3>בקשות פתוחות</h3>
+        <div id="guestRequestContainer" class="listing-grid"></div>
+      </div>
+      <div class="panel panel-guest-form">
+        <h3>פרסם בקשת אירוח</h3>
+        <form id="guestRequestForm">
+          <div class="form-row">
+            <label for="guestNameInput">שם</label>
+            <input id="guestNameInput" type="text" required />
+          </div>
+          <div class="form-row">
+            <label for="guestContactInput">טלפון/אימייל ליצירת קשר</label>
+            <input id="guestContactInput" type="text" required placeholder="050-1234567 או email@example.com" />
+          </div>
+          <div class="form-row half">
+            <label for="guestFamilySizeInput">מספר אנשים במשפחה</label>
+            <input id="guestFamilySizeInput" type="number" min="1" required />
+          </div>
+          <div class="form-row half">
+            <label for="guestKosherInput">רמת כשרות נדרשת</label>
+            <select id="guestKosherInput" required>
+              <option value="5">5</option>
+              <option value="4">4</option>
+              <option value="3">3</option>
+              <option value="2">2</option>
+              <option value="1">1</option>
+            </select>
+          </div>
+          <div class="form-row">
+            <label for="guestCountryInput">מדינה מבוקשת</label>
+            <input id="guestCountryInput" type="text" required />
+          </div>
+          <div class="form-row">
+            <label for="guestCityInput">עיר מבוקשת</label>
+            <input id="guestCityInput" type="text" required />
+          </div>
+          <div class="form-row">
+            <label for="guestDateInput">תאריך/ים מבוקש</label>
+            <input id="guestDateInput" type="text" required placeholder="לדוגמה: פרשת בשלח, 30/1" />
+          </div>
+          <button type="submit" class="btn-primary">פרסם בקשה</button>
+        </form>
+      </div>
+    </div>
+  </section>
   </main>
 
   <script src="script.js"></script>
