@@ -1,4 +1,6 @@
-const listings = [
+const STORAGE_KEY = 'shabbatstay-listings';
+
+const defaultListings = [
   {
     name: 'Levant House',
     address: 'Herzl 12, ירושלים',
@@ -56,6 +58,45 @@ const listings = [
   },
 ];
 
+function isValidListing(item) {
+  return item &&
+    typeof item.name === 'string' &&
+    typeof item.address === 'string' &&
+    typeof item.owner === 'string' &&
+    typeof item.country === 'string' &&
+    typeof item.city === 'string' &&
+    typeof item.description === 'string' &&
+    Number.isFinite(item.overallRating) &&
+    Number.isFinite(item.kosherRating) &&
+    (item.shabbatReady === 'yes' || item.shabbatReady === 'no');
+}
+
+function loadListings() {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      const parsed = JSON.parse(stored);
+      if (Array.isArray(parsed)) {
+        const valid = parsed.filter(isValidListing);
+        if (valid.length) return valid;
+      }
+    }
+  } catch (error) {
+    console.warn('ShabbatStay: failed to load listings from localStorage', error);
+  }
+  return [...defaultListings];
+}
+
+function saveListings() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(listings));
+  } catch (error) {
+    console.warn('ShabbatStay: failed to save listings to localStorage', error);
+  }
+}
+
+const listings = loadListings();
+
 const searchInput = document.getElementById('searchInput');
 const countrySelect = document.getElementById('countrySelect');
 const citySelect = document.getElementById('citySelect');
@@ -67,6 +108,12 @@ const reviewForm = document.getElementById('reviewForm');
 
 function getUniqueValues(key) {
   return [...new Set(listings.map(item => item[key]).sort((a, b) => a.localeCompare(b)))]
+}
+
+function escapeHtml(value) {
+  const div = document.createElement('div');
+  div.textContent = value;
+  return div.innerHTML;
 }
 
 function createOption(value) {
@@ -105,19 +152,19 @@ function renderListings(items) {
     card.className = 'card';
 
     card.innerHTML = `
-      <h3>${item.name}</h3>
-      <p>${item.address}</p>
+      <h3>${escapeHtml(item.name)}</h3>
+      <p>${escapeHtml(item.address)}</p>
       <div class="badge-row">
-        <span class="badge">${item.country}</span>
-        <span class="badge">${item.city}</span>
-        <span class="badge">${item.owner}</span>
+        <span class="badge">${escapeHtml(item.country)}</span>
+        <span class="badge">${escapeHtml(item.city)}</span>
+        <span class="badge">${escapeHtml(item.owner)}</span>
       </div>
       <div class="rating-row">
         <span class="rating-chip">ציון כללי: ${item.overallRating}</span>
         <span class="rating-chip">כשרות: ${item.kosherRating}</span>
         <span class="rating-chip ${item.shabbatReady === 'yes' ? 'shabbat-yes' : 'shabbat-no'}">שבת: ${item.shabbatReady === 'yes' ? 'כן' : 'לא'}</span>
       </div>
-      <p>${item.description}</p>
+      <p>${escapeHtml(item.description)}</p>
     `;
 
     listingContainer.appendChild(card);
@@ -161,6 +208,7 @@ function addListing(event) {
   };
 
   listings.unshift(newListing);
+  saveListings();
   updateFilters();
   applyFilters();
   reviewForm.reset();
