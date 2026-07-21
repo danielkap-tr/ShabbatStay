@@ -1,0 +1,189 @@
+:root {
+  --bg: #faf8f3;
+  --surface: #ffffff;
+  --surface-strong: #f0ece5;
+  --text: #1f1f1f;
+  --muted: #6b6b6b;
+  --primary: #6b4f4f;
+  --accent: #f2b880;
+  --border: #ddd7ce;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+}
+
+.site-header {
+  background: linear-gradient(135deg, #6b4f4f, #8f6b6b);
+  color: white;
+  padding: 2rem 1.5rem;
+  text-align: center;
+}
+
+.site-header h1 {
+  margin: 0 0 0.5rem;
+}
+
+.site-header p {
+  margin: 0;
+  opacity: 0.9;
+}
+
+.page-grid {
+  display: grid;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  grid-template-columns: minmax(240px, 320px) 1fr;
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+}
+
+.panel h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.filter-group,
+.form-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 1rem;
+}
+
+input,
+select,
+textarea {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 0.85rem 1rem;
+  font: inherit;
+  background: #fff;
+  color: var(--text);
+}
+
+textarea {
+  resize: vertical;
+}
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.95rem 1rem;
+  border: none;
+  border-radius: 14px;
+  background: var(--primary);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-primary:hover {
+  background: #5a4242;
+}
+
+.listing-grid {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 1.25rem;
+  background: var(--surface-strong);
+}
+
+.card h3 {
+  margin: 0 0 0.5rem;
+}
+
+.card p {
+  margin: 0.4rem 0;
+  color: var(--muted);
+}
+
+.card .badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  background: white;
+  border: 1px solid var(--border);
+  font-size: 0.9rem;
+}
+
+.badge.kosher {
+  background: #fff6e1;
+}
+
+.badge.shabbat-yes {
+  background: #e8f7e7;
+}
+
+.badge.shabbat-no {
+  background: #f7e2e2;
+}
+
+.rating-row {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.rating-chip {
+  padding: 0.35rem 0.7rem;
+  border-radius: 999px;
+  background: #f5f1ed;
+  color: var(--text);
+  font-weight: 600;
+}
+
+.form-row.half {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  .page-grid {
+    grid-template-columns: 300px 1.2fr 300px;
+  }
+  .form-row.half {
+    width: calc(50% - 0.5rem);
+  }
+  .panel-form {
+    position: sticky;
+    top: 1rem;
+  }
+}
+
+@media (max-width: 760px) {
+  .page-grid {
+    grid-template-columns: 1fr;
+  }
+  .form-row.half {
+    width: 100%;
+  }
+}

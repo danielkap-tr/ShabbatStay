@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shabbat Stay Recommendations</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div>
+      <h1>Shabbat Stay</h1>
+      <p>דירות ומלונות מומלצים לשבת בחו"ל ובערים אחרות.</p>
+    </div>
+  </header>
+
+  <main class="page-grid">
+    <section class="panel panel-filters">
+      <h2>סינונים</h2>
+      <div class="filter-group">
+        <label for="searchInput">חיפוש שם או כתובת</label>
+        <input id="searchInput" type="text" placeholder="חיפוש" />
+      </div>
+      <div class="filter-group">
+        <label for="countrySelect">מדינה</label>
+        <select id="countrySelect">
+          <option value="">הכל</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="citySelect">עיר</label>
+        <select id="citySelect">
+          <option value="">הכל</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="kosherSelect">ציון כשרות מינימלי</label>
+        <select id="kosherSelect">
+          <option value="0">הכל</option>
+          <option value="1">≥ 1</option>
+          <option value="2">≥ 2</option>
+          <option value="3">≥ 3</option>
+          <option value="4">≥ 4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="ratingSelect">ציון כללי מינימלי</label>
+        <select id="ratingSelect">
+          <option value="0">הכל</option>
+          <option value="1">≥ 1</option>
+          <option value="2">≥ 2</option>
+          <option value="3">≥ 3</option>
+          <option value="4">≥ 4</option>
+          <option value="5">5</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="shabbatSelect">מתאים לשבת</label>
+        <select id="shabbatSelect">
+          <option value="">הכל</option>
+          <option value="yes">כן</option>
+          <option value="no">לא</option>
+        </select>
+      </div>
+    </section>
+
+    <section class="panel panel-listings">
+      <h2>המלצות</h2>
+      <div id="listingContainer" class="listing-grid"></div>
+    </section>
+
+    <section class="panel panel-form">
+      <h2>הוסף המלצה</h2>
+      <form id="reviewForm">
+        <div class="form-row">
+          <label for="nameInput">שם המקום</label>
+          <input id="nameInput" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="addressInput">כתובת</label>
+          <input id="addressInput" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="ownerInput">פרטי בעלים / יצירת קשר</label>
+          <input id="ownerInput" type="text" placeholder="שם, טלפון או אימייל" />
+        </div>
+        <div class="form-row">
+          <label for="countryInput">מדינה</label>
+          <input id="countryInput" type="text" required />
+        </div>
+        <div class="form-row">
+          <label for="cityInput">עיר</label>
+          <input id="cityInput" type="text" required />
+        </div>
+        <div class="form-row half">
+          <label for="ratingInput">ציון כללי</label>
+          <select id="ratingInput" required>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+        <div class="form-row half">
+          <label for="kosherInput">ציון כשרות</label>
+          <select id="kosherInput" required>
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="shabbatInput">מתאים לשבת?</label>
+          <select id="shabbatInput" required>
+            <option value="yes">כן</option>
+            <option value="no">לא</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <label for="descriptionInput">תיאור התאמה לשבת</label>
+          <textarea id="descriptionInput" rows="4" placeholder="מה יש במקום? האם מוכנים להתאים לשבת?" required></textarea>
+        </div>
+        <button type="submit" class="btn-primary">שלח המלצה</button>
+      </form>
+    </section>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
