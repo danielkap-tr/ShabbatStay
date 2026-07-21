@@ -86,6 +86,22 @@
           <input id="ownerInput" type="text" placeholder="שם, טלפון או אימייל" />
         </div>
         <div class="form-row">
+          <label for="isOwnerInput">אני הבעלים/ת ונרשם/ת ישירות כמארח/ת</label>
+          <input id="isOwnerInput" type="checkbox" />
+        </div>
+        <div class="form-row half">
+          <label for="capacityInput">מספר אורחים/מיטות</label>
+          <input id="capacityInput" type="number" min="1" placeholder="לדוגמה: 4" />
+        </div>
+        <div class="form-row half">
+          <label for="priceInput">מחיר ללילה</label>
+          <input id="priceInput" type="number" min="0" step="any" placeholder="בש״ח" />
+        </div>
+        <div class="form-row">
+          <label for="contactInput">טלפון/אימייל ליצירת קשר (למארחים)</label>
+          <input id="contactInput" type="text" placeholder="050-1234567 או email@example.com" />
+        </div>
+        <div class="form-row">
           <label for="countryInput">מדינה</label>
           <input id="countryInput" type="text" required />
         </div>

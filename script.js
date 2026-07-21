@@ -68,7 +68,11 @@ function isValidListing(item) {
     typeof item.description === 'string' &&
     Number.isFinite(item.overallRating) &&
     Number.isFinite(item.kosherRating) &&
-    (item.shabbatReady === 'yes' || item.shabbatReady === 'no');
+    (item.shabbatReady === 'yes' || item.shabbatReady === 'no') &&
+    (item.isOwner === undefined || typeof item.isOwner === 'boolean') &&
+    (item.capacity == null || Number.isFinite(item.capacity)) &&
+    (item.pricePerNight == null || Number.isFinite(item.pricePerNight)) &&
+    (item.contactInfo === undefined || typeof item.contactInfo === 'string');
 }
 
 function loadListings() {
@@ -151,6 +155,11 @@ function renderListings(items) {
     const card = document.createElement('article');
     card.className = 'card';
 
+    const hostBadge = item.isOwner ? '<span class="badge host">מארח/ת רשום/ה</span>' : '';
+    const capacityBadge = item.capacity != null ? `<span class="badge">עד ${item.capacity} אורחים</span>` : '';
+    const priceBadge = item.pricePerNight != null ? `<span class="badge">${item.pricePerNight} ₪ ללילה</span>` : '';
+    const contactLine = item.contactInfo ? `<p>ליצירת קשר: ${escapeHtml(item.contactInfo)}</p>` : '';
+
     card.innerHTML = `
       <h3>${escapeHtml(item.name)}</h3>
       <p>${escapeHtml(item.address)}</p>
@@ -158,6 +167,9 @@ function renderListings(items) {
         <span class="badge">${escapeHtml(item.country)}</span>
         <span class="badge">${escapeHtml(item.city)}</span>
         <span class="badge">${escapeHtml(item.owner)}</span>
+        ${hostBadge}
+        ${capacityBadge}
+        ${priceBadge}
       </div>
       <div class="rating-row">
         <span class="rating-chip">ציון כללי: ${item.overallRating}</span>
@@ -165,6 +177,7 @@ function renderListings(items) {
         <span class="rating-chip ${item.shabbatReady === 'yes' ? 'shabbat-yes' : 'shabbat-no'}">שבת: ${item.shabbatReady === 'yes' ? 'כן' : 'לא'}</span>
       </div>
       <p>${escapeHtml(item.description)}</p>
+      ${contactLine}
     `;
 
     listingContainer.appendChild(card);
@@ -195,10 +208,17 @@ function applyFilters() {
 function addListing(event) {
   event.preventDefault();
 
+  const capacityValue = document.getElementById('capacityInput').value;
+  const priceValue = document.getElementById('priceInput').value;
+
   const newListing = {
     name: document.getElementById('nameInput').value.trim(),
     address: document.getElementById('addressInput').value.trim(),
     owner: document.getElementById('ownerInput').value.trim() || 'לא צויין',
+    isOwner: document.getElementById('isOwnerInput').checked,
+    capacity: capacityValue ? Number(capacityValue) : null,
+    pricePerNight: priceValue ? Number(priceValue) : null,
+    contactInfo: document.getElementById('contactInput').value.trim(),
     country: document.getElementById('countryInput').value.trim(),
     city: document.getElementById('cityInput').value.trim(),
     overallRating: Number(document.getElementById('ratingInput').value),
